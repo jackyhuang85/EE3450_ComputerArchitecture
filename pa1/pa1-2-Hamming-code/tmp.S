@@ -15,11 +15,11 @@ main:
 	addi  s0, zero, 0		# i = 0
 loop:
 	slt t0, s0, a1	# t0 = 1 if (i >= SIZE)
-	bne t0, zero, exit
+	beq t0, zero, exit
 
 	slli t0, s0, 3  # t0 = i * 8
 	add  s1, t0, a0 # s1 = &list[i]
-	lw   s2, 0(s1) 	# s2 = list[i]
+	ld   s2, 0(s1) 	# s2 = list[i]
 
 # each bit of num --> {t3, t2, t1, t0}
 	andi t0, s2, 1	
@@ -56,7 +56,7 @@ loop:
 	add  t1, t1, t4		# D4 D3 D2 P3 D1 P2 P1
 
 # Storeeeeee it!!!! fuck it's 1:30am
-	sw 	 t1, 0(s1)
+	sd 	 t1, 0(s1)
 
 	addi s0, s0, 1  # i += 1 
 	j	loop
