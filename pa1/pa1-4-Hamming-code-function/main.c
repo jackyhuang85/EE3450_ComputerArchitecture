@@ -21,7 +21,7 @@ int main()
     printf("Origin number( 4-bit )\n");
     print_array(list, SIZE);
 
-    parity_asm(list, SIZE);
+    hamming_asm(list, SIZE);
     printf("Hamming code bit( 4+3 bits )\n");
     print_array(list, SIZE);
 
