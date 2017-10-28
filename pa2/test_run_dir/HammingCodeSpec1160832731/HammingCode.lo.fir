@@ -1,0 +1,40 @@
+circuit HammingCode : @[:@2.0]
+  module HammingCode : @[:@3.2]
+    input clock : Clock @[:@4.4]
+    input reset : UInt<1> @[:@5.4]
+    input io_in : UInt<4> @[:@6.4]
+    input io_enable : UInt<1> @[:@6.4]
+    output io_out : UInt<7> @[:@6.4]
+    output io_valid : UInt<1> @[:@6.4]
+  
+    node _T_6 = bits(io_in, 3, 3) @[HammingCode.scala 11:17:@11.4]
+    node _T_7 = bits(io_in, 2, 2) @[HammingCode.scala 11:28:@12.4]
+    node _T_8 = xor(_T_6, _T_7) @[HammingCode.scala 11:21:@13.4]
+    node _T_9 = bits(io_in, 1, 1) @[HammingCode.scala 11:39:@14.4]
+    node p3 = xor(_T_8, _T_9) @[HammingCode.scala 11:32:@15.4]
+    node _T_10 = bits(io_in, 3, 3) @[HammingCode.scala 12:17:@16.4]
+    node _T_11 = bits(io_in, 2, 2) @[HammingCode.scala 12:28:@17.4]
+    node _T_12 = xor(_T_10, _T_11) @[HammingCode.scala 12:21:@18.4]
+    node _T_13 = bits(io_in, 0, 0) @[HammingCode.scala 12:39:@19.4]
+    node p2 = xor(_T_12, _T_13) @[HammingCode.scala 12:32:@20.4]
+    node _T_14 = bits(io_in, 3, 3) @[HammingCode.scala 13:17:@21.4]
+    node _T_15 = bits(io_in, 1, 1) @[HammingCode.scala 13:28:@22.4]
+    node _T_16 = xor(_T_14, _T_15) @[HammingCode.scala 13:21:@23.4]
+    node _T_17 = bits(io_in, 0, 0) @[HammingCode.scala 13:39:@24.4]
+    node p1 = xor(_T_16, _T_17) @[HammingCode.scala 13:32:@25.4]
+    reg hamming : UInt<7>, clock with :
+      reset => (UInt<1>("h0"), hamming) @[HammingCode.scala 14:20:@26.4]
+    reg valid_reg : UInt<1>, clock with :
+      reset => (UInt<1>("h0"), valid_reg) @[HammingCode.scala 15:22:@27.4]
+    node _T_20 = bits(io_in, 3, 1) @[HammingCode.scala 17:25:@29.6]
+    node _T_21 = bits(io_in, 0, 0) @[HammingCode.scala 17:41:@30.6]
+    node _T_22 = cat(p2, p1) @[Cat.scala 30:58:@31.6]
+    node _T_23 = cat(_T_20, p3) @[Cat.scala 30:58:@32.6]
+    node _T_24 = cat(_T_23, _T_21) @[Cat.scala 30:58:@33.6]
+    node _T_25 = cat(_T_24, _T_22) @[Cat.scala 30:58:@34.6]
+    node _GEN_0 = mux(io_enable, _T_25, hamming) @[HammingCode.scala 16:19:@28.4]
+    node _GEN_1 = mux(io_enable, UInt<1>("h1"), UInt<1>("h0")) @[HammingCode.scala 16:19:@28.4]
+    io_out <= hamming
+    io_valid <= valid_reg
+    hamming <= _GEN_0
+    valid_reg <= _GEN_1
