@@ -18,22 +18,24 @@ search_3:
 		lw  t4, 4(a0)
 		lw  t5, 8(a0)
 		lw  t6, 12(a0)
-		bne	t2, a2, loop2
+		beq	t2, a2, check1	
+		beq	t4, a2, check2
+		beq	t5, a2, check3
+		beq	t6, a2, check4
+		j	cont
+	check1:
 		add t3, t0, 0
 		mv	a0, t3
 		ret
-	loop2:	
-		bne	t4, a2, loop3
+	check2:	
 		add t3, t0, 1
 		mv	a0, t3
 		ret
-	loop3:
-		bne	t5, a2, loop4
+	check3:
 		add t3, t0, 2
 		mv	a0, t3
 		ret
-	loop4:
-		bne	t6, a2, cont 
+	check4:
 		add t3, t0, 3
 		mv	a0, t3
 		ret
